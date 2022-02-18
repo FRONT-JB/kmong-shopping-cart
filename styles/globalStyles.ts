@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
 	footer, header, hgroup, menu, nav, section {
 		display: block;
 	}
-  html {
+  	html {
 		font-size: 10px;
 	}
 	html, body {
@@ -16,8 +16,9 @@ const GlobalStyle = createGlobalStyle`
 	body {
 		line-height: 1;
 		font-size: 14px;
-		font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", 나눔고딕, "Nanum Gothic", "Noto Sans KR", "Noto Sans CJK KR", arial, 돋움, Dotum, Tahoma, Geneva, sans-serif;
+		font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", 나눔고딕, "Nanum Gothic", "Noto Sans KR", "Noto Sans CJK KR", arial, 돋움, Dotum, Tahoma, Geneva, sans-serif;
 		-webkit-font-smoothing: antialiased;
+    background: #f2f3f7;
 	}
 	ol, ul {
 		list-style: none;
@@ -37,12 +38,15 @@ const GlobalStyle = createGlobalStyle`
 	button {
 		outline: none;
 		border: none;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
 	}
 	a {
 		color: inherit;
 		text-decoration: none;
 	}
-  #__next {
+  	#__next {
 		height: 100%;
 	}
 	* {
