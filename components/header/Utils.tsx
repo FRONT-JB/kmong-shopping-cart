@@ -32,6 +32,9 @@ const UtilsWrapper = styled.div`
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
+  @media screen and (max-width: 1024px) {
+    right: 32px;
+  }
 `;
 
 const Anchor = styled.a`
