@@ -1,7 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FILTER_METHOD } from '../../constants/filter';
 import { FilterTypes } from '../../types/filter';
-import { CartProducts } from '../../types/product';
+import { CartProducts, PaymentProduct } from '../../types/product';
 import { calcTotalPrice } from '../../utils/totalPrice';
 import { RootState } from './index';
 
@@ -60,7 +60,7 @@ const productSlice = createSlice({
       };
     },
 
-    paymentsRequest: (state, { payload }: PayloadAction<CartProducts[]>) => {
+    paymentsRequest: (state, { payload }: PayloadAction<PaymentProduct>) => {
       return {
         ...state,
         loading: true,
