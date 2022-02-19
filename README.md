@@ -1,6 +1,11 @@
 # Kmong Shopping-Cart
 
-...tech
+[![TypeScript-v4.5.5](https://img.shields.io/badge/TypeScript-v4.5.5-007ACC.svg?logo=typescript)](https://www.typescriptlang.org/)
+[![NextJS](https://img.shields.io/badge/Next-latest-000000.svg?logo=next.js)](https://nextjs.org/)
+[![Redux](https://img.shields.io/badge/Redux-v4.1.2-764ABC.svg?logo=redux)](https://ko.redux.js.org/introduction/getting-started/)
+[![Redux-Toolkit](https://img.shields.io/badge/ReduxToolkit-v1.7.2-764ABC.svg?logo=redux)](https://ko.redux.js.org/introduction/getting-started/)
+[![Redux-Saga](https://img.shields.io/badge/ReduxSaga-v1.1.3-999999.svg?logo=redux-saga)](https://redux-saga.js.org/)
+[![Styled-Components](https://img.shields.io/badge/styled-v5.2.3-DB7093.svg?logo=styled-components)](https://styled-components.com/)
 
 ## Task
 
