@@ -22,7 +22,11 @@ const useCart = () => {
   };
 
   const handlePayments = (products: CartProducts[]) => {
-    dispatch(paymentsRequest(products));
+    const paymentParams = products.map((product) => ({
+      id: product.id,
+      quantity: product.quantity,
+    }));
+    dispatch(paymentsRequest(paymentParams));
   };
 
   return { products, cartProducts, handleIncrement, handleDecrement, handlePayments };

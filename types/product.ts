@@ -10,3 +10,5 @@ export interface ProductTypes {
 export interface CartProducts extends ProductTypes {
   quantity: number;
 }
+
+export type PaymentProduct = Pick<CartProducts, 'id' | 'quantity'>[];
