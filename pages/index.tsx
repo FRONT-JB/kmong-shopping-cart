@@ -1,5 +1,6 @@
 import cls from 'classnames';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Card, Filter, Seo } from '../components';
 import { BASE_URL } from '../constants/api';
 import useCart from '../hooks/useCart';
@@ -45,9 +46,8 @@ const Home = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  const res = await fetch(`${BASE_URL}/fruits`);
-  const json: CartProducts[] = await res.json();
-  const products = json
+  const { data }: { data: CartProducts[] } = await axios.get(`${BASE_URL}/fruits`);
+  const products = data
     .map((product) => Object.assign(product, { quantity: 0 }))
     .sort((product) => (product.isPrime ? -1 : 1));
   store.dispatch(setProduct(products));

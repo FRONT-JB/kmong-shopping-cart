@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { Header } from '../components';
 import wrapper from '../store';
 import GlobalStyle from '../styles/globalStyles';
+import withReduxSaga from 'next-redux-saga';
 import theme from '../styles/theme';
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -15,4 +16,4 @@ const App = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default wrapper.withRedux(App);
+export default wrapper.withRedux(withReduxSaga(App));

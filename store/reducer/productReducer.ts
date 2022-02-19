@@ -10,11 +10,15 @@ const PRODUCT_SLICE_NAME = 'product' as const;
 interface ProductState {
   products: CartProducts[];
   filter: FilterTypes;
+  error: string | null;
+  loading: boolean;
 }
 
 const initialState: ProductState = {
   products: [],
   filter: 'all',
+  error: null,
+  loading: false,
 };
 
 const productSlice = createSlice({
@@ -49,11 +53,46 @@ const productSlice = createSlice({
         ),
       };
     },
+    clearPayments: (state) => {
+      return {
+        ...state,
+        products: state.products.map((product) => ({ ...product, quantity: 0 })),
+      };
+    },
+
+    paymentsRequest: (state, { payload }: PayloadAction<CartProducts[]>) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+    paymentsSuccess: (state) => {
+      return {
+        ...state,
+        loading: false,
+      };
+    },
+    paymentsFailure: (state, { payload }: PayloadAction<string>) => {
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+    },
   },
 });
 
 export const { actions, reducer: productReducer } = productSlice;
-export const { setProduct, changeFilter, incrementQantity, decrementQantity } = actions;
+export const {
+  setProduct,
+  changeFilter,
+  incrementQantity,
+  decrementQantity,
+  clearPayments,
+  paymentsRequest,
+  paymentsSuccess,
+  paymentsFailure,
+} = actions;
 
 export const productSelector = (state: RootState) => state.product;
 export const filterStateSelector = createSelector([productSelector], ({ filter }) => filter);
