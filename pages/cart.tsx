@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import cls from 'classnames';
 import { Card, Seo } from '../components';
 import { Button } from '../styles/common/button';
 import useCart from '../hooks/useCart';
@@ -10,7 +9,7 @@ import { cartProductsPriceSelector } from '../store/reducer/productReducer';
 import { numberWithComma } from '../utils/price';
 
 const Index = () => {
-  const { cartProducts, handleDecrement } = useCart();
+  const { cartProducts, handleDecrement, handlePayments } = useCart();
   const { primeTotal, generalTotal, productTotal } = useSelector(cartProductsPriceSelector);
   const isNotNullCart = !!cartProducts.length;
 
@@ -30,7 +29,7 @@ const Index = () => {
                 <Actions>
                   <ActionButton
                     type='button'
-                    className={cls('gray')}
+                    className='gray'
                     onClick={() => handleDecrement(product.id)}
                   >
                     취소
@@ -56,7 +55,13 @@ const Index = () => {
                 <strong>총 상품금액</strong>
                 <span>{numberWithComma(productTotal)}원</span>
               </div>
-              {/* <ActionButton label='결제하기' color='yellow' /> */}
+              <ActionButton
+                type='button'
+                className='yellow'
+                onClick={() => handlePayments(cartProducts)}
+              >
+                결제하기
+              </ActionButton>
             </PaymentInfo>
           </Payment>
         </>

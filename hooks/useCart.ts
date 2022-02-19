@@ -4,7 +4,9 @@ import {
   decrementQantity,
   filteredProductSelector,
   incrementQantity,
+  paymentsRequest,
 } from '../store/reducer/productReducer';
+import { CartProducts } from '../types/product';
 
 const useCart = () => {
   const dispatch = useDispatch();
@@ -19,7 +21,11 @@ const useCart = () => {
     dispatch(decrementQantity(productId));
   };
 
-  return { products, cartProducts, handleIncrement, handleDecrement };
+  const handlePayments = (products: CartProducts[]) => {
+    dispatch(paymentsRequest(products));
+  };
+
+  return { products, cartProducts, handleIncrement, handleDecrement, handlePayments };
 };
 
 export default useCart;
