@@ -1,51 +1,42 @@
+import { memo, ReactNode } from 'react';
 import styled from 'styled-components';
 import Emoji from './common/Emoji';
-import { ReactNode } from 'react';
-import classNames from 'classnames';
+import cls from 'classnames';
+import { CartProducts } from '../types/product';
+import { numberWithComma } from '../utils/price';
 
 interface Props {
-  title: string;
-  icon: string;
-  price: number;
-  stock: number;
-  total?: number;
-  isPrime?: boolean;
+  product: CartProducts;
   isCart?: boolean;
   children?: ReactNode;
 }
 
-const Card = ({
-  title,
-  icon,
-  price,
-  stock,
-  total,
-  isPrime = false,
-  isCart = false,
-  children = null,
-}: Props) => {
+const Card = ({ product, isCart = false, children = null }: Props) => {
+  const { name, image, stock, price, isPrime = false, quantity } = product;
   return (
-    <CardWrapper className={classNames({ 'is-cart': isCart })}>
+    <CardWrapper className={cls({ 'is-cart': isCart })}>
       {isPrime && <i className='is-prime'>prime</i>}
-      <Emoji icon={icon} />
+      <Emoji icon={image} />
       <Desc>
         <DescInfo>
-          <Title>{title}</Title>
-          <Price>{price}원</Price>
+          <Title>{name}</Title>
+          <Price>{numberWithComma(price)}원</Price>
           {!isCart && (
             <div className='items stock'>
               <em>잔량</em>
-              <span>{stock}</span>
+              <span>{stock - quantity}</span>
             </div>
           )}
-          <div className='items amount'>
-            <em>수량</em>
-            <span>{stock}</span>
-          </div>
+          {quantity > 0 && (
+            <div className='items amount'>
+              <em>수량</em>
+              <span>{quantity}</span>
+            </div>
+          )}
           {isCart && (
             <div className='items total'>
               <em>상품금액</em>
-              <span>{total}원</span>
+              <span>{numberWithComma(quantity * price)}원</span>
             </div>
           )}
         </DescInfo>
@@ -55,7 +46,7 @@ const Card = ({
   );
 };
 
-export default Card;
+export default memo(Card);
 
 const CardWrapper = styled.div`
   position: relative;
@@ -122,6 +113,10 @@ const DescInfo = styled.div`
       padding-top: 12px;
       border-top: ${({ theme }) => `1px solid ${theme.color.gray.base}`};
       strong {
+        width: auto;
+      }
+      em {
+        display: inline-block;
         width: auto;
       }
     }

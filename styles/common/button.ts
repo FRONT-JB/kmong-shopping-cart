@@ -1,30 +1,6 @@
-import classNames from 'classnames';
 import styled from 'styled-components';
 
-interface Props {
-  label: string;
-  color?: string;
-  isPrime?: boolean;
-  isActive?: boolean;
-  disabled?: boolean;
-}
-
-const Index = ({ label, color, isPrime = false, isActive, disabled = false }: Props) => {
-  return (
-    <Button
-      type='button'
-      className={classNames({ [`${color}`]: color, 'is-active': isActive })}
-      disabled={disabled}
-    >
-      {isPrime && <i className='is-prime'>prime</i>}
-      {label}
-    </Button>
-  );
-};
-
-export default Index;
-
-const Button = styled.button`
+export const Button = styled.button`
   position: relative;
   padding: 0 16px;
   height: 40px;
@@ -43,15 +19,16 @@ const Button = styled.button`
   }
   &.gray {
     background: ${({ theme }) => theme.color.gray.lighten1};
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.color.black.base};
   }
   &.orange {
     background: ${({ theme }) => theme.color.orange};
     color: ${({ theme }) => theme.color.white};
   }
-  &.yellow {
+  &.yellow,
+  &.is-active {
     background: ${({ theme }) => theme.color.yellow};
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.color.black.base};
   }
   &:disabled {
     background: ${({ theme }) => theme.color.gray.base};
