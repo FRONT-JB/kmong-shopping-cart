@@ -1,12 +1,13 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Card, Seo } from '../components';
+import cls from 'classnames';
+import { Card, Result, Seo } from '../components';
 import { Button } from '../styles/common/button';
 import useCart from '../hooks/useCart';
-import IconPackage from '../public/icon_package.svg';
-import Image from 'next/image';
-import { useSelector } from 'react-redux';
 import { cartProductsPriceSelector } from '../store/reducer/productReducer';
 import { numberWithComma } from '../utils/price';
+import { NOT_FOUND_MESSAGE } from '../constants/notfound';
+import { ProductList } from '../styles/layout/Product';
 
 const Index = () => {
   const { cartProducts, handleDecrement, handlePayments } = useCart();
@@ -14,16 +15,13 @@ const Index = () => {
   const isNotNullCart = !!cartProducts.length;
 
   return (
-    <CartWrapper>
+    <CartWrapper className={cls({ 'is-small': cartProducts.length <= 2 })}>
       <Seo title='Cart' />
       {!isNotNullCart ? (
-        <NoResult>
-          <Image src={IconPackage} />
-          <strong>장바구니가 비었습니다.</strong>
-        </NoResult>
+        <Result title={NOT_FOUND_MESSAGE.CART} />
       ) : (
         <>
-          <ProductCart>
+          <ProductList>
             {cartProducts.map((product) => (
               <Card key={product.id} product={product} isCart>
                 <Actions>
@@ -37,7 +35,7 @@ const Index = () => {
                 </Actions>
               </Card>
             ))}
-          </ProductCart>
+          </ProductList>
           <Payment>
             <PaymentInfo>
               <div className='price prime'>
@@ -76,38 +74,30 @@ const CartWrapper = styled.div`
   max-width: 880px;
   padding: 112px 0 0;
   margin: 0 auto;
-`;
-
-const NoResult = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 112px);
-  *::selection {
-    background: transparent;
+  &.is-small {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-bottom: 100px;
   }
-  strong {
-    margin-top: 20px;
-    cursor: default;
-    color: ${({ theme }) => theme.color.black.base};
+  @media screen and (max-width: 1520px) {
+    padding: 112px 15px;
   }
-`;
-
-const ProductCart = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -24px 0 -24px;
 `;
 
 const Payment = styled.div`
   margin-top: 32px;
   text-align: right;
+  @media screen and (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const PaymentInfo = styled.div`
   display: inline-block;
   min-width: 250px;
+  text-align: right;
   .price {
     * {
       vertical-align: middle;
