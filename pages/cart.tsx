@@ -1,37 +1,66 @@
 import styled from 'styled-components';
-import Card from '../components/Card';
-import { Button } from '../components/common';
+import cls from 'classnames';
+import { Card, Seo } from '../components';
+import { Button } from '../styles/common/button';
+import useCart from '../hooks/useCart';
+import IconPackage from '../public/icon_package.svg';
+import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { cartProductsPriceSelector } from '../store/reducer/productReducer';
+import { numberWithComma } from '../utils/price';
 
 const Index = () => {
+  const { cartProducts, handleDecrement } = useCart();
+  const { primeTotal, generalTotal, productTotal } = useSelector(cartProductsPriceSelector);
+  const isNotNullCart = !!cartProducts.length;
+
   return (
     <CartWrapper>
-      <ProductCart>
-        <Card title='바나나' icon={''} price={6000} stock={5} total={10} isCart>
-          <Actions>
-            <Button label='취소' color='gray' />
-          </Actions>
-        </Card>
-      </ProductCart>
-      <Payment>
-        <PaymentInfo>
-          <div className='price prime'>
-            <strong>
-              <i className='prime'>prime</i>
-              과일
-            </strong>
-            <span>85000원</span>
-          </div>
-          <div className='price default'>
-            <strong>일반 과일</strong>
-            <span>8000원</span>
-          </div>
-          <div className='price total'>
-            <strong>총 상품금액</strong>
-            <span>93000원</span>
-          </div>
-          <Button label='결제하기' color='yellow' />
-        </PaymentInfo>
-      </Payment>
+      <Seo title='Cart' />
+      {!isNotNullCart ? (
+        <NoResult>
+          <Image src={IconPackage} />
+          <strong>장바구니가 비었습니다.</strong>
+        </NoResult>
+      ) : (
+        <>
+          <ProductCart>
+            {cartProducts.map((product) => (
+              <Card key={product.id} product={product} isCart>
+                <Actions>
+                  <ActionButton
+                    type='button'
+                    className={cls('gray')}
+                    onClick={() => handleDecrement(product.id)}
+                  >
+                    취소
+                  </ActionButton>
+                </Actions>
+              </Card>
+            ))}
+          </ProductCart>
+          <Payment>
+            <PaymentInfo>
+              <div className='price prime'>
+                <strong>
+                  <i className='prime'>prime</i>
+                  과일
+                </strong>
+                <span>{numberWithComma(primeTotal)}원</span>
+              </div>
+              <div className='price default'>
+                <strong>일반 과일</strong>
+                <span>{numberWithComma(generalTotal)}원</span>
+              </div>
+              <div className='price total'>
+                <strong>총 상품금액</strong>
+                <span>{numberWithComma(productTotal)}원</span>
+              </div>
+              {/* <ActionButton label='결제하기' color='yellow' /> */}
+            </PaymentInfo>
+          </Payment>
+        </>
+      )}
     </CartWrapper>
   );
 };
@@ -42,6 +71,22 @@ const CartWrapper = styled.div`
   max-width: 880px;
   padding: 112px 0 0;
   margin: 0 auto;
+`;
+
+const NoResult = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 112px);
+  *::selection {
+    background: transparent;
+  }
+  strong {
+    margin-top: 20px;
+    cursor: default;
+    color: ${({ theme }) => theme.color.black.base};
+  }
 `;
 
 const ProductCart = styled.div`
@@ -112,3 +157,5 @@ const Actions = styled.div`
     margin-left: 16px;
   }
 `;
+
+const ActionButton = styled(Button)``;

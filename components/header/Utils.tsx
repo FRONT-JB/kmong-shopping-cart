@@ -1,21 +1,23 @@
-import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import cls from 'classnames';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { cartQuantitySelector } from '../../store/reducer/productReducer';
 
 const Utils = () => {
   const router = useRouter();
   const isProduct = router.pathname === '/';
   const isCart = router.pathname === '/cart';
-
+  const cartLength = useSelector(cartQuantitySelector);
   return (
     <UtilsWrapper>
       <Link href='/'>
-        <Anchor className={classNames({ 'is-active': isProduct })}>상품목록</Anchor>
+        <Anchor className={cls({ 'is-active': isProduct })}>상품목록</Anchor>
       </Link>
       <Link href='cart'>
-        <Anchor className={classNames({ 'is-active': isCart })}>
-          <Tooltip>1</Tooltip>
+        <Anchor className={cls({ 'is-active': isCart })}>
+          <Tooltip className={cls({ 'is-active': cartLength > 0 })}>{cartLength}</Tooltip>
           장바구니
         </Anchor>
       </Link>
@@ -54,6 +56,7 @@ const Anchor = styled.a`
 `;
 
 const Tooltip = styled.span`
+  visibility: hidden;
   position: absolute;
   right: -9.5px;
   top: -10px;
@@ -64,6 +67,12 @@ const Tooltip = styled.span`
   text-align: center;
   background: ${({ theme }) => theme.color.yellow};
   border-radius: 50%;
+  opacity: 0;
+  transition: all 0.2s ease;
+  &.is-active {
+    visibility: visible;
+    opacity: 1;
+  }
   &::selection {
     background: transparent;
   }

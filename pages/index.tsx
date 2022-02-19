@@ -1,24 +1,58 @@
+import cls from 'classnames';
 import styled from 'styled-components';
-import Card from '../components/Card';
-import { Button } from '../components/common';
-import Filter from '../components/Filter';
+import { Card, Filter, Seo } from '../components';
+import { BASE_URL } from '../constants/api';
+import useCart from '../hooks/useCart';
+import wrapper from '../store';
+import { setProduct } from '../store/reducer/productReducer';
+import { Button } from '../styles/common/button';
+import { CartProducts } from '../types/product';
 
 const Home = () => {
-  const isPrime = true;
+  const { products, handleIncrement, handleDecrement } = useCart();
+
   return (
     <HomeWrapper>
+      <Seo title='Products' />
       <Filter />
       <ProductList>
-        <Card title='바나나' icon={'🍌'} price={6000} stock={5} isPrime={true}>
-          <Actions>
-            <Button label='빼기' color='gray' />
-            <Button label='담기' color={isPrime ? 'orange' : 'yellow'} />
-          </Actions>
-        </Card>
+        {products?.map((product) => (
+          <Card key={`${product.name}-${product.id}`} product={product}>
+            <Actions>
+              {product.quantity > 0 && (
+                <ActionButton
+                  type='button'
+                  className={cls('gray')}
+                  onClick={() => handleDecrement(product.id)}
+                >
+                  빼기
+                </ActionButton>
+              )}
+              <ActionButton
+                type='button'
+                className={cls({ orange: product.isPrime, yellow: !product.isPrime })}
+                onClick={() => handleIncrement(product.id)}
+                disabled={product.stock === product.quantity}
+              >
+                담기
+              </ActionButton>
+            </Actions>
+          </Card>
+        ))}
       </ProductList>
     </HomeWrapper>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
+  const res = await fetch(`${BASE_URL}/fruits`);
+  const json: CartProducts[] = await res.json();
+  const products = json
+    .map((product) => Object.assign(product, { quantity: 0 }))
+    .sort((product) => (product.isPrime ? -1 : 1));
+  store.dispatch(setProduct(products));
+  return { props: {} };
+});
 
 export default Home;
 
@@ -43,3 +77,5 @@ const Actions = styled.div`
     margin-left: 16px;
   }
 `;
+
+const ActionButton = styled(Button)``;
