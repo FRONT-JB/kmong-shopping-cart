@@ -1,46 +1,54 @@
 import cls from 'classnames';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Card, Filter, Seo } from '../components';
+import { Card, Filter, Result, Seo } from '../components';
 import { BASE_URL } from '../constants/api';
 import useCart from '../hooks/useCart';
 import wrapper from '../store';
 import { setProduct } from '../store/reducer/productReducer';
 import { Button } from '../styles/common/button';
 import { CartProducts } from '../types/product';
+import { NOT_FOUND_MESSAGE } from '../constants/notfound';
+import { ProductList } from '../styles/layout/Product';
 
 const Home = () => {
   const { products, handleIncrement, handleDecrement } = useCart();
-
+  const isNotNullCart = !!products?.length;
   return (
     <HomeWrapper>
       <Seo title='Products' />
-      <Filter />
-      <ProductList>
-        {products?.map((product) => (
-          <Card key={`${product.name}-${product.id}`} product={product}>
-            <Actions>
-              {product.quantity > 0 && (
-                <ActionButton
-                  type='button'
-                  className={cls('gray')}
-                  onClick={() => handleDecrement(product.id)}
-                >
-                  빼기
-                </ActionButton>
-              )}
-              <ActionButton
-                type='button'
-                className={cls({ orange: product.isPrime, yellow: !product.isPrime })}
-                onClick={() => handleIncrement(product.id)}
-                disabled={product.stock === product.quantity}
-              >
-                담기
-              </ActionButton>
-            </Actions>
-          </Card>
-        ))}
-      </ProductList>
+      {!isNotNullCart ? (
+        <Result title={NOT_FOUND_MESSAGE.PRODUCT} />
+      ) : (
+        <>
+          <Filter />
+          <ProductList>
+            {products?.map((product) => (
+              <Card key={`${product.name}-${product.id}`} product={product}>
+                <Actions>
+                  {product.quantity > 0 && (
+                    <ActionButton
+                      type='button'
+                      className={cls('gray')}
+                      onClick={() => handleDecrement(product.id)}
+                    >
+                      빼기
+                    </ActionButton>
+                  )}
+                  <ActionButton
+                    type='button'
+                    className={cls({ orange: product.isPrime, yellow: !product.isPrime })}
+                    onClick={() => handleIncrement(product.id)}
+                    disabled={product.stock === product.quantity}
+                  >
+                    담기
+                  </ActionButton>
+                </Actions>
+              </Card>
+            ))}
+          </ProductList>
+        </>
+      )}
     </HomeWrapper>
   );
 };
@@ -60,12 +68,10 @@ const HomeWrapper = styled.div`
   max-width: 1440px;
   padding: 96px 0;
   margin: 0 auto;
-`;
 
-const ProductList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -24px 0 -24px;
+  @media screen and (max-width: 1520px) {
+    padding: 96px 15px;
+  }
 `;
 
 const Actions = styled.div`

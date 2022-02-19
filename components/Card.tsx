@@ -51,13 +51,13 @@ export default memo(Card);
 const CardWrapper = styled.div`
   position: relative;
   display: flex;
-  align-items: center;
   padding: 32px 16px 16px 16px;
   margin: 24px;
   width: calc((100% / 3) - 48px);
   min-height: 240px;
   background: ${({ theme }) => theme.color.white};
   border-radius: 16px;
+  align-items: center;
   &.is-cart {
     width: calc((100% / 2) - 48px);
   }
@@ -68,6 +68,17 @@ const CardWrapper = styled.div`
     color: ${({ theme }) => theme.color.orange};
     font-size: 20px;
     font-weight: 700;
+  }
+  @media screen and (max-width: 1024px) {
+    width: calc(100% / 2 - 48px);
+  }
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 12px;
+    &.is-cart {
+      width: 100%;
+      margin: 12px;
+    }
   }
 `;
 

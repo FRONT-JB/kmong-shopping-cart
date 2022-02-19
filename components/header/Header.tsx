@@ -31,6 +31,10 @@ const WrapperInner = styled.div`
   max-width: 1440px;
   text-align: center;
   padding: 12px 0px;
+  @media screen and (max-width: 768px) {
+    padding: 0 16px;
+    text-align: left;
+  }
 `;
 
 const Logo = styled.h1`
@@ -41,5 +45,8 @@ const Logo = styled.h1`
   cursor: default;
   &::selection {
     background: transparent;
+  }
+  @media screen and (max-width: 768px) {
+    line-height: 3;
   }
 `;
