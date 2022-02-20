@@ -6,18 +6,31 @@ import {
   paymentsFailure,
   paymentsRequest,
   paymentsSuccess,
+  productFailure,
+  productRequest,
+  productSuccess,
 } from '../reducer/productReducer';
 import { CartProducts } from '~/types/product';
 import { BASE_URL } from '~/constants/api';
 
 function paymentApi(data: CartProducts[]) {
-  // return axios.post(`${BASE_URL}/purchase`, data);
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve('200 OK');
-      window.alert(JSON.stringify(data));
-    }, 3000);
-  });
+  return axios.post(`${BASE_URL}/purchase`, data);
+}
+
+function productApi() {
+  return axios.get(`${BASE_URL}/fruits`);
+}
+
+function* products() {
+  try {
+    const { data }: { data: CartProducts[] } = yield call(productApi);
+    const products = data
+      .map((product) => Object.assign(product, { quantity: 0 }))
+      .sort((product) => (product.isPrime ? -1 : 1));
+    yield put(productSuccess(products));
+  } catch (error) {
+    if (error instanceof Error) yield put(productFailure(error.message));
+  }
 }
 
 function* payments({ payload }: PayloadAction<CartProducts[]>) {
@@ -25,6 +38,7 @@ function* payments({ payload }: PayloadAction<CartProducts[]>) {
     yield call(paymentApi, payload);
     yield put(paymentsSuccess());
     yield put(clearPayments());
+    window.alert(JSON.stringify(payload));
   } catch (error) {
     if (error instanceof Error) yield put(paymentsFailure(error.message));
   }
@@ -32,4 +46,8 @@ function* payments({ payload }: PayloadAction<CartProducts[]>) {
 
 export function* watchPayments() {
   yield takeLatest(paymentsRequest.type, payments);
+}
+
+export function* watchProducts() {
+  yield takeLatest(productRequest.type, products);
 }

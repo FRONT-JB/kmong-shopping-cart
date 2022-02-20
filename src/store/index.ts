@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware, { Task } from 'redux-saga';
+import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducer';
 import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import sessionStorage from 'redux-persist/es/storage/session';

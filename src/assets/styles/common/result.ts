@@ -10,7 +10,6 @@ export const NoResult = styled.div`
     background: transparent;
   }
   strong {
-    margin-top: 20px;
     cursor: default;
     color: ${({ theme }) => theme.color.black.base};
   }

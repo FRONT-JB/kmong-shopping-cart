@@ -61,6 +61,28 @@ const productSlice = createSlice({
     },
 
     // APIs
+    productRequest: (state) => {
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    },
+    productSuccess: (state, { payload }: PayloadAction<CartProducts[]>) => {
+      return {
+        ...state,
+        products: payload,
+        loading: false,
+      };
+    },
+    productFailure: (state, { payload }: PayloadAction<string>) => {
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+    },
+
     paymentsRequest: (state, { payload }: PayloadAction<PaymentProduct>) => {
       return {
         ...state,
@@ -93,6 +115,9 @@ export const {
   paymentsRequest,
   paymentsSuccess,
   paymentsFailure,
+  productRequest,
+  productSuccess,
+  productFailure,
 } = actions;
 
 export const productSelector = (state: RootState) => state.product;
