@@ -1,4 +1,7 @@
+build
 dist
-reset.css
-eslintrc.json
-babelrc
+coverage
+.eslintrc.js
+index.html
+
+src/resources/plugins/*

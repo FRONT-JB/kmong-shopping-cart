@@ -1,11 +1,35 @@
 # Kmong Shopping-Cart
 
 [![TypeScript-v4.5.5](https://img.shields.io/badge/TypeScript-v4.5.5-007ACC.svg?logo=typescript)](https://www.typescriptlang.org/)
-[![NextJS](https://img.shields.io/badge/Next-latest-000000.svg?logo=next.js)](https://nextjs.org/)
+[![React-v17.0.2](https://img.shields.io/badge/React-v17.0.2-61DAFB.svg?logo=react)](https://reactjs.org/)
 [![Redux](https://img.shields.io/badge/Redux-v4.1.2-764ABC.svg?logo=redux)](https://ko.redux.js.org/introduction/getting-started/)
 [![Redux-Toolkit](https://img.shields.io/badge/ReduxToolkit-v1.7.2-764ABC.svg?logo=redux)](https://ko.redux.js.org/introduction/getting-started/)
 [![Redux-Saga](https://img.shields.io/badge/ReduxSaga-v1.1.3-999999.svg?logo=redux-saga)](https://redux-saga.js.org/)
 [![Styled-Components](https://img.shields.io/badge/styled-v5.2.3-DB7093.svg?logo=styled-components)](https://styled-components.com/)
+
+<br />
+
+## Installation
+
+    yarn
+    yarn install
+
+<br />
+
+## Usage
+
+    yarn start
+
+<br />
+
+`아래의 문구 알림창 떴을 경우, 허용이 필요합니다. (yarn berry의 내장된 Typescript 사용)`
+
+    이 작업 영역에는 TypeScript 버전이 포함되어 있습니다.
+    TypeScript 및 JavaScript 언어 기능에 작업 영역 TypeScript 버전을 사용하시겠습니까?
+
+<br />
+
+---
 
 ## Task
 
@@ -39,24 +63,6 @@
 <br />
 
 ---
-
-<br />
-
-## Installation
-
-    yarn install
-
-<br />
-
-## Usage
-
-    yarn dev
-
-<br />
-
----
-
-<br />
 
 ## Api
 
