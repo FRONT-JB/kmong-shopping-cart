@@ -5,8 +5,7 @@ import { ProductList } from '~/assets/styles/layout/Product';
 import { Card, Filter, Result } from '~/components';
 import { NOT_FOUND_MESSAGE } from '~/constants/notfound';
 import useCart from '~/hooks/useCart';
-import { ProductItem } from '~/mock/product';
-import { setProduct } from '~/store/reducer/productReducer';
+import { productRequest, setProduct } from '~/store/reducer/productReducer';
 import { HomeWrapper } from './Styled';
 
 const MainContainer = () => {
@@ -16,10 +15,7 @@ const MainContainer = () => {
 
   useEffect(() => {
     if (!isNotNullCart) {
-      const products = ProductItem.map((product) => Object.assign(product, { quantity: 0 })).sort(
-        (product) => (product.isPrime ? -1 : 1),
-      );
-      dispatch(setProduct(products));
+      dispatch(productRequest());
     }
   }, []);
 
