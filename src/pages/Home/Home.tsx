@@ -1,7 +1,5 @@
 import { Outlet } from 'react-router';
 
-const Home = () => {
-  return <Outlet />;
-};
+const Home = () => <Outlet />;
 
 export default Home;
